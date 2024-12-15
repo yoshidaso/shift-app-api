@@ -1,0 +1,5 @@
+.idea/
+/tmp/
+/docker/
+/docker/postgres/
+.env
