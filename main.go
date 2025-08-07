@@ -22,5 +22,6 @@ func main() {
 	r := gin.Default()
 	r.GET("/shifts", shiftController.FindAll)
 	r.GET("/shifts/:id", shiftController.FindById)
+	r.POST("/shifts", shiftController.Create)
 	r.Run("localhost:8080")
 }

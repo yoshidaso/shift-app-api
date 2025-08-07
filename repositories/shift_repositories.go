@@ -8,6 +8,7 @@ import (
 type IShiftRepository interface {
 	FindAll() (*[]models.Shift, error)
 	FindById(shiftId uint) (*models.Shift, error)
+	Create(newShift models.Shift) (*models.Shift, error)
 }
 
 type ShiftMemoryRepository struct {
@@ -29,4 +30,10 @@ func (r *ShiftMemoryRepository) FindById(shiftId uint) (*models.Shift, error) {
 		}
 	}
 	return nil, errors.New("shift not found")
+}
+
+func (r *ShiftMemoryRepository) Create(newShift models.Shift) (*models.Shift, error) {
+	newShift.ID = uint(len(r.shifts) + 1)
+	r.shifts = append(r.shifts, newShift)
+	return &newShift, nil
 }
