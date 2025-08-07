@@ -1,15 +1,18 @@
 package controllers
 
 import (
+	"attendance-app-api/dto"
 	"attendance-app-api/services"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 type IShiftController interface {
 	FindAll(ctx *gin.Context)
 	FindById(ctx *gin.Context)
+	Create(ctx *gin.Context)
 }
 
 type ShiftController struct {
@@ -46,4 +49,18 @@ func (c *ShiftController) FindById(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, gin.H{"data": shift})
+}
+
+func (c *ShiftController) Create(ctx *gin.Context) {
+	var req dto.CreateShiftRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	newShift, err := c.service.Create(req)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusCreated, gin.H{"data": newShift})
 }
