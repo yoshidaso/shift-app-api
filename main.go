@@ -5,6 +5,7 @@ import (
 	"attendance-app-api/models"
 	"attendance-app-api/repositories"
 	"attendance-app-api/services"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,5 +24,5 @@ func main() {
 	r.GET("/shifts", shiftController.FindAll)
 	r.GET("/shifts/:id", shiftController.FindById)
 	r.POST("/shifts", shiftController.Create)
-	r.Run("localhost:8080")
+	r.Run(":8080")
 }
