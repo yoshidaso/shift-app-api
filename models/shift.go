@@ -1,7 +1,9 @@
 package models
 
+import "gorm.io/gorm"
+
 type Shift struct {
-	ID          uint   `gorm:"primaryKey"`
+	gorm.Model
 	UserID      uint   `gorm:"not null"`
 	StartTime   string `gorm:"not null"`
 	EndTime     string `gorm:"not null"`
