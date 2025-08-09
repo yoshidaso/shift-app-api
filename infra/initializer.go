@@ -1,13 +1,14 @@
 package infra
 
 import (
-	"github.com/joho/godotenv"
 	"log"
+
+	"github.com/joho/godotenv"
 )
 
 func Initialize() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
+	// .env が無くても環境変数が設定されていれば続行できるため、致命的エラーにはしない
+	if err := godotenv.Load(); err != nil {
+		log.Printf(".env file not found; continuing with existing environment variables")
 	}
 }
