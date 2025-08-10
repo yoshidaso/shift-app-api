@@ -7,9 +7,9 @@ import (
 )
 
 type IUserService interface {
-	FindAll() (*[]models.User, error)
-	FindById(userId uint) (*models.User, error)
-	Create(createUserRequest dto.CreateUserRequest) (*models.User, error)
+	FindAll() (*[]models.Users, error)
+	FindById(userId uint) (*models.Users, error)
+	Create(createUserRequest dto.CreateUserRequest) (*models.Users, error)
 }
 
 type UserService struct {
@@ -20,16 +20,16 @@ func NewUserService(userRepository repositories.IUserRepository) IUserService {
 	return &UserService{userRepository: userRepository}
 }
 
-func (s *UserService) FindAll() (*[]models.User, error) {
+func (s *UserService) FindAll() (*[]models.Users, error) {
 	return s.userRepository.FindAll()
 }
 
-func (s *UserService) FindById(userId uint) (*models.User, error) {
+func (s *UserService) FindById(userId uint) (*models.Users, error) {
 	return s.userRepository.FindById(userId)
 }
 
-func (s *UserService) Create(createUserRequest dto.CreateUserRequest) (*models.User, error) {
-	newUser := models.User{
+func (s *UserService) Create(createUserRequest dto.CreateUserRequest) (*models.Users, error) {
+	newUser := models.Users{
 		Name:  createUserRequest.Name,
 		Email: createUserRequest.Email,
 	}

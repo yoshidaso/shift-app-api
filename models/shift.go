@@ -1,12 +1,16 @@
 package models
 
-import "gorm.io/gorm"
+import "time"
 
-type Shift struct {
-	gorm.Model
-	UserID      uint   `gorm:"not null"`
-	StartTime   string `gorm:"not null"`
-	EndTime     string `gorm:"not null"`
-	WorkContent string `gorm:"not null"`
-	Issues      string `gorm:"not null"`
+type Shifts struct {
+	ID          uint      `gorm:"primaryKey;autoIncrement" json:"id"`
+	UserID      uint      `gorm:"column:user_id;not null" json:"userId"`
+	StartTime   time.Time `gorm:"column:startAt;not null" json:"startAt"`
+	EndTime     time.Time `gorm:"column:endAt;not null" json:"endAt"`
+	WorkContent string    `gorm:"column:workContent;not null" json:"workContent"`
+	Issues      string    `gorm:"column:issues;not null" json:"issues"`
+}
+
+func (Shifts) TableName() string {
+	return "Shifts"
 }
