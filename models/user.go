@@ -1,9 +1,14 @@
 package models
 
-import "gorm.io/gorm"
+import "time"
 
-type User struct {
-	gorm.Model
-	Name  string `gorm:"not null"`
-	Email string `gorm:"not null;unique"`
+type Users struct {
+	ID        uint      `gorm:"primaryKey;autoIncrement" json:"id"`
+	Name      string    `gorm:"not null" json:"name"`
+	Email     string    `gorm:"not null;unique" json:"email"`
+	CreatedAt time.Time `gorm:"column:createdAt;default:CURRENT_TIMESTAMP" json:"createdAt"`
+}
+
+func (Users) TableName() string {
+	return "Users"
 }

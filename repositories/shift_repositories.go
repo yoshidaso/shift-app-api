@@ -8,24 +8,24 @@ import (
 )
 
 type IShiftRepository interface {
-	FindAll() (*[]models.Shift, error)
-	FindById(shiftId uint) (*models.Shift, error)
-	Create(newShift models.Shift) (*models.Shift, error)
+	FindAll() (*[]models.Shifts, error)
+	FindById(shiftId uint) (*models.Shifts, error)
+	Create(newShift models.Shifts) (*models.Shifts, error)
 }
 
 type ShiftMemoryRepository struct {
-	shifts []models.Shift
+	shifts []models.Shifts
 }
 
-func NewShiftMemoryRepository(shifts []models.Shift) IShiftRepository {
+func NewShiftMemoryRepository(shifts []models.Shifts) IShiftRepository {
 	return &ShiftMemoryRepository{shifts: shifts}
 }
 
-func (r *ShiftMemoryRepository) FindAll() (*[]models.Shift, error) {
+func (r *ShiftMemoryRepository) FindAll() (*[]models.Shifts, error) {
 	return &r.shifts, nil
 }
 
-func (r *ShiftMemoryRepository) FindById(shiftId uint) (*models.Shift, error) {
+func (r *ShiftMemoryRepository) FindById(shiftId uint) (*models.Shifts, error) {
 	for _, v := range r.shifts {
 		if v.ID == shiftId {
 			return &v, nil
@@ -34,7 +34,7 @@ func (r *ShiftMemoryRepository) FindById(shiftId uint) (*models.Shift, error) {
 	return nil, errors.New("shift not found")
 }
 
-func (r *ShiftMemoryRepository) Create(newShift models.Shift) (*models.Shift, error) {
+func (r *ShiftMemoryRepository) Create(newShift models.Shifts) (*models.Shifts, error) {
 	newShift.ID = uint(len(r.shifts) + 1)
 	r.shifts = append(r.shifts, newShift)
 	return &newShift, nil
@@ -48,8 +48,8 @@ func NewShiftRepository(db *gorm.DB) IShiftRepository {
 	return &ShiftRepository{db: db}
 }
 
-func (r *ShiftRepository) FindAll() (*[]models.Shift, error) {
-	shifts := []models.Shift{}
+func (r *ShiftRepository) FindAll() (*[]models.Shifts, error) {
+	shifts := []models.Shifts{}
 	result := r.db.Find(&shifts)
 	if result.Error != nil {
 		return nil, result.Error
@@ -57,8 +57,8 @@ func (r *ShiftRepository) FindAll() (*[]models.Shift, error) {
 	return &shifts, nil
 }
 
-func (r *ShiftRepository) FindById(shiftId uint) (*models.Shift, error) {
-	shift := models.Shift{}
+func (r *ShiftRepository) FindById(shiftId uint) (*models.Shifts, error) {
+	shift := models.Shifts{}
 	result := r.db.First(&shift, shiftId)
 	if result.Error != nil {
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
@@ -69,7 +69,7 @@ func (r *ShiftRepository) FindById(shiftId uint) (*models.Shift, error) {
 	return &shift, nil
 }
 
-func (r *ShiftRepository) Create(newShift models.Shift) (*models.Shift, error) {
+func (r *ShiftRepository) Create(newShift models.Shifts) (*models.Shifts, error) {
 	result := r.db.Create(&newShift)
 	if result.Error != nil {
 		return nil, result.Error

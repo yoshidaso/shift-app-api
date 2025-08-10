@@ -7,20 +7,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Users {
   id        Int      @id @default(autoincrement())
   name      String
   email     String   @unique
   createdAt DateTime @default(now())
-  shifts    Shift[]
+  shifts    Shifts[]
 }
 
-model Shift {
-  id        Int      @id @default(autoincrement())
-  userId    Int      @map("user_id")
-  startAt   DateTime
-  endAt     DateTime
+model Shifts {
+  id          Int      @id @default(autoincrement())
+  userId      Int      @map("user_id")
+  startAt     DateTime
+  endAt       DateTime
   workContent String
-  issues String
-  user    User     @relation(fields: [userId], references: [id])
+  issues      String
+  users       Users    @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "Shift_user_id_fkey")
 }
