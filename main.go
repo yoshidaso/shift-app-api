@@ -17,9 +17,16 @@ func main() {
 	shiftService := services.NewShiftService(shiftRepository)
 	shiftController := controllers.NewShiftController(shiftService)
 
+	userRepository := repositories.NewUserRepository(db)
+	userService := services.NewUserService(userRepository)
+	userController := controllers.NewUserController(userService)
+
 	r := gin.Default()
 	r.GET("/shifts", shiftController.FindAll)
 	r.GET("/shifts/:id", shiftController.FindById)
 	r.POST("/shifts", shiftController.Create)
+	r.GET("/users", userController.FindAll)
+	r.GET("/users/:id", userController.FindById)
+	r.POST("/users", userController.Create)
 	r.Run(":8080")
 }
