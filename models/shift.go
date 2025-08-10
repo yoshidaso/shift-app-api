@@ -5,8 +5,8 @@ import "time"
 type Shifts struct {
 	ID          uint      `gorm:"primaryKey;autoIncrement" json:"id"`
 	UserID      uint      `gorm:"column:user_id;not null" json:"userId"`
-	StartTime   time.Time `gorm:"column:startAt;not null" json:"startAt"`
-	EndTime     time.Time `gorm:"column:endAt;not null" json:"endAt"`
+	StartAt     time.Time `gorm:"column:startAt;not null" json:"startAt"`
+	EndAt       time.Time `gorm:"column:endAt;not null" json:"endAt"`
 	WorkContent string    `gorm:"column:workContent;not null" json:"workContent"`
 	Issues      string    `gorm:"column:issues;not null" json:"issues"`
 }

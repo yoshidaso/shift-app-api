@@ -42,8 +42,8 @@ func (s *ShiftService) Create(createShitRequest dto.CreateShiftRequest) (*models
 
 	newShift := models.Shifts{
 		UserID:      createShitRequest.UserID,
-		StartTime:   startTime,
-		EndTime:     endTime,
+		StartAt:     startTime,
+		EndAt:       endTime,
 		WorkContent: createShitRequest.WorkContent,
 		Issues:      createShitRequest.Issues,
 	}
