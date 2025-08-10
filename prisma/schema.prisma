@@ -16,11 +16,13 @@ model User {
 }
 
 model Shift {
-  id        Int      @id @default(autoincrement())
-  userId    Int      @map("user_id")
-  startAt   DateTime
-  endAt     DateTime
+  id          Int      @id @default(autoincrement())
+  userId      Int      @map("user_id")
+  startAt     DateTime
+  endAt       DateTime
   workContent String
-  issues String
-  user    User     @relation(fields: [userId], references: [id])
+  issues      String
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "Shift_user_id_fkey")
 }
