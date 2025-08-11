@@ -14,10 +14,6 @@ type IShiftRepository interface {
 	Delete(shiftId uint) error
 }
 
-type ShiftMemoryRepository struct {
-	shifts []models.Shifts
-}
-
 type ShiftRepository struct {
 	db *gorm.DB
 }
