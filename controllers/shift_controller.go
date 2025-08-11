@@ -13,6 +13,7 @@ type IShiftController interface {
 	FindAll(ctx *gin.Context)
 	FindById(ctx *gin.Context)
 	Create(ctx *gin.Context)
+	Delete(ctx *gin.Context)
 }
 
 type ShiftController struct {
@@ -63,4 +64,23 @@ func (c *ShiftController) Create(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusCreated, gin.H{"data": newShift})
+}
+
+func (c *ShiftController) Delete(ctx *gin.Context) {
+	shiftId, err := strconv.ParseUint(ctx.Param("id"), 10, 64)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid shift ID"})
+		return
+	}
+
+	err = c.service.Delete(uint(shiftId))
+	if err != nil {
+		if err.Error() == "shift not found" {
+			ctx.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unexpected error"})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{"message": "Shift deleted successfully"})
 }

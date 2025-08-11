@@ -10,6 +10,7 @@ type IUserService interface {
 	FindAll() (*[]models.Users, error)
 	FindById(userId uint) (*models.Users, error)
 	Create(createUserRequest dto.CreateUserRequest) (*models.Users, error)
+	Delete(userId uint) error
 }
 
 type UserService struct {
@@ -34,4 +35,8 @@ func (s *UserService) Create(createUserRequest dto.CreateUserRequest) (*models.U
 		Email: createUserRequest.Email,
 	}
 	return s.userRepository.Create(newUser)
+}
+
+func (s *UserService) Delete(userId uint) error {
+	return s.userRepository.Delete(userId)
 }

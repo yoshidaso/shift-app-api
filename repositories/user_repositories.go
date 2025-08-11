@@ -3,6 +3,7 @@ package repositories
 import (
 	"attendance-app-api/models"
 	"errors"
+
 	"gorm.io/gorm"
 )
 
@@ -10,6 +11,7 @@ type IUserRepository interface {
 	FindAll() (*[]models.Users, error)
 	FindById(userId uint) (*models.Users, error)
 	Create(newUser models.Users) (*models.Users, error)
+	Delete(userId uint) error
 }
 
 type UserRepository struct {
@@ -47,4 +49,21 @@ func (r *UserRepository) Create(newUser models.Users) (*models.Users, error) {
 		return nil, result.Error
 	}
 	return &newUser, nil
+}
+
+func (r *UserRepository) Delete(userId uint) error {
+	user := models.Users{}
+	result := r.db.First(&user, userId)
+	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return errors.New("user not found")
+		}
+		return result.Error
+	}
+
+	result = r.db.Delete(&user)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
 }
