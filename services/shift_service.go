@@ -11,6 +11,7 @@ type IShiftService interface {
 	FindAll() (*[]models.Shifts, error)
 	FindById(shiftId uint) (*models.Shifts, error)
 	Create(createShiftInput dto.CreateShiftRequest) (*models.Shifts, error)
+	Delete(shiftId uint) error
 }
 
 type ShiftService struct {
@@ -48,4 +49,8 @@ func (s *ShiftService) Create(createShitRequest dto.CreateShiftRequest) (*models
 		Issues:      createShitRequest.Issues,
 	}
 	return s.repository.Create(newShift)
+}
+
+func (s *ShiftService) Delete(shiftId uint) error {
+	return s.repository.Delete(shiftId)
 }

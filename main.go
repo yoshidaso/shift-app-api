@@ -25,6 +25,8 @@ func main() {
 	r.GET("/shifts", shiftController.FindAll)
 	r.GET("/shifts/:id", shiftController.FindById)
 	r.POST("/shifts", shiftController.Create)
+	r.DELETE("/shifts/:id", shiftController.Delete)
+	
 	r.GET("/users", userController.FindAll)
 	r.GET("/users/:id", userController.FindById)
 	r.POST("/users", userController.Create)
