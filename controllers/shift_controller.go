@@ -53,12 +53,13 @@ func (c *ShiftController) FindById(ctx *gin.Context) {
 }
 
 func (c *ShiftController) Create(ctx *gin.Context) {
+	userName := ctx.Param("userName")
 	var req dto.CreateShiftRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	newShift, err := c.service.Create(req)
+	newShift, err := c.service.Create(req, userName)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
