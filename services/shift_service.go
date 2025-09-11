@@ -10,7 +10,7 @@ import (
 type IShiftService interface {
 	FindAll() (*[]models.Shifts, error)
 	FindById(shiftId uint) (*models.Shifts, error)
-	Create(createShiftInput dto.CreateShiftRequest) (*models.Shifts, error)
+	Create(createShiftInput dto.CreateShiftRequest, userName string) (*models.Shifts, error)
 	Delete(shiftId uint) error
 }
 
@@ -30,7 +30,7 @@ func (s *ShiftService) FindById(shiftId uint) (*models.Shifts, error) {
 	return s.repository.FindById(shiftId)
 }
 
-func (s *ShiftService) Create(createShitRequest dto.CreateShiftRequest) (*models.Shifts, error) {
+func (s *ShiftService) Create(createShitRequest dto.CreateShiftRequest, userName string) (*models.Shifts, error) {
 	today := time.Now().Format("2006-01-02")
 	startTime, err := time.Parse("2006-01-02 15:04", today+" "+createShitRequest.StartTime)
 	if err != nil {
@@ -42,7 +42,7 @@ func (s *ShiftService) Create(createShitRequest dto.CreateShiftRequest) (*models
 	}
 
 	newShift := models.Shifts{
-		UserID:      createShitRequest.UserID,
+		UserName:    createShitRequest.UserName,
 		StartAt:     startTime,
 		EndAt:       endTime,
 		WorkContent: createShitRequest.WorkContent,

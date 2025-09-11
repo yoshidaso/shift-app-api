@@ -10,6 +10,7 @@ import (
 type IUserRepository interface {
 	FindAll() (*[]models.Users, error)
 	FindById(userId uint) (*models.Users, error)
+	FindByName(name string) (*models.Users, error)
 	Create(newUser models.Users) (*models.Users, error)
 	Delete(userId uint) error
 }
@@ -34,6 +35,18 @@ func (r *UserRepository) FindAll() (*[]models.Users, error) {
 func (r *UserRepository) FindById(userId uint) (*models.Users, error) {
 	user := models.Users{}
 	result := r.db.First(&user, userId)
+	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return nil, errors.New("user not found")
+		}
+		return nil, result.Error
+	}
+	return &user, nil
+}
+
+func (r *UserRepository) FindByName(name string) (*models.Users, error) {
+	user := models.Users{}
+	result := r.db.Where("name = ?", name).First(&user)
 	if result.Error != nil {
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 			return nil, errors.New("user not found")

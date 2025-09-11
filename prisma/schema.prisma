@@ -9,20 +9,20 @@ datasource db {
 
 model Users {
   id        Int      @id @default(autoincrement())
-  name      String
+  name      String   @unique
   email     String   @unique
-  createdAt DateTime @default(now())
+  createdAt DateTime @default(now()) @map("created_at")
   shifts    Shifts[]
 }
 
 model Shifts {
   id          Int      @id @default(autoincrement())
-  userId      Int      @map("user_id")
-  startAt     DateTime
-  endAt       DateTime
-  workContent String
+  userName    String   @map("user_name")
+  startAt     DateTime @map("start_at")
+  endAt       DateTime @map("end_at")
+  workContent String   @map("work_content")
   issues      String
-  users       Users    @relation(fields: [userId], references: [id])
+  users       Users    @relation(fields: [userName], references: [name])
 
-  @@index([userId], map: "Shift_user_id_fkey")
+  @@index([userName], map: "Shift_user_id_fkey")
 }

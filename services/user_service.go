@@ -9,6 +9,7 @@ import (
 type IUserService interface {
 	FindAll() (*[]models.Users, error)
 	FindById(userId uint) (*models.Users, error)
+	FindByName(name string) (*models.Users, error)
 	Create(createUserRequest dto.CreateUserRequest) (*models.Users, error)
 	Delete(userId uint) error
 }
@@ -27,6 +28,10 @@ func (s *UserService) FindAll() (*[]models.Users, error) {
 
 func (s *UserService) FindById(userId uint) (*models.Users, error) {
 	return s.userRepository.FindById(userId)
+}
+
+func (s *UserService) FindByName(name string) (*models.Users, error) {
+	return s.userRepository.FindByName(name)
 }
 
 func (s *UserService) Create(createUserRequest dto.CreateUserRequest) (*models.Users, error) {
